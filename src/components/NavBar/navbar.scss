@@ -1,0 +1,39 @@
+.header {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  .navbar {
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1440px;
+
+    .navbar__title {
+      font-size: 4rem;
+      font-weight: 700;
+      margin: 0;
+      color: rgb(22, 68, 52);
+    }
+  }
+
+  .navbar__button {
+    margin: 20px auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    .navbar {
+      .navbar__logo-right {
+        display: none;
+      }
+
+      .navbar__title {
+        font-size: 3rem;
+        margin-right: 20px;
+      }
+    }
+  }
+}

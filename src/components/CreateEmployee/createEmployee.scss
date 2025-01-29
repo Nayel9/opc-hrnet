@@ -1,0 +1,91 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid rgb(22, 68, 52);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(22, 68, 52, 0.5);
+  margin: 80px 40px 20px 40px;
+  padding: 0 30px 30px 30px;
+
+  label {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 1rem;
+    font-size: 1.4rem;
+    margin: 10px 0 10px 0;
+    height: 40px;
+  }
+
+  input {
+    border: 1px solid rgb(22, 68, 52);
+    border-radius: 5px;
+    font-size: 1.4rem;
+    padding: 5px;
+    background-color: #F2FBF6;
+    width: 100%;
+    flex: 1;
+  }
+  input:focus {
+    border: 2px solid rgb(22, 68, 52);
+    box-shadow: 0 0 5px rgb(133, 168, 133);
+    outline: none;
+  }
+
+  select {
+    border: 1px solid rgb(22, 68, 52);
+    border-radius: 5px;
+    font-size: 1.4rem;
+    padding: 5px;
+    background-color: #F2FBF6;
+    width: 100%;
+    flex: 1;
+    color: rgb(22, 68, 52);
+  }
+
+  #create-employee {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    font-size: 1.4rem;
+  }
+
+  .address {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    font-size: 1.4rem;
+    border: 1px solid rgb(22, 68, 52);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(22, 68, 52, 0.5);
+    padding: 30px;
+    grid-column: span 2;
+  }
+
+  .save__button {
+    margin: 40px 0 0 0;
+  }
+  /* Pour les navigateurs Webkit (Chrome, Safari, etc.) */
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Pour Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .form-container {
+    margin: 80px 20px 20px 20px;
+
+    #create-employee, .address {
+      grid-template-columns: 1fr;
+      grid-column: span 1;
+    }
+  }
+}
