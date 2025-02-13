@@ -70,7 +70,12 @@
   .required-fields{
     margin-top: 10px;
   }
-
+  .button__container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    grid-column: span 2;
+  }
   /* Pour les navigateurs Webkit (Chrome, Safari, etc.) */
   input[type=number]::-webkit-outer-spin-button,
   input[type=number]::-webkit-inner-spin-button {

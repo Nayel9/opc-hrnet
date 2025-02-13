@@ -58,7 +58,6 @@ const CreateEmployee = () => {
     { value: "Legal", label: "Legal" },
   ];
 
-
   return (
     <div className="form-container">
       <h1>Create Employee</h1>
@@ -86,11 +85,11 @@ const CreateEmployee = () => {
         <label htmlFor="department">
           Department *
           <CustomSelect
-              name="department"
-              id="department"
-              required
-              options={departmentOptions}
-              defaultOption="Select Department"
+            name="department"
+            id="department"
+            required
+            options={departmentOptions}
+            defaultOption="Select Department"
           />
         </label>
 
@@ -110,11 +109,11 @@ const CreateEmployee = () => {
           <label htmlFor="state">
             State *
             <CustomSelect
-                name="state"
-                id="state"
-                required
-                options={stateOptions}
-                defaultOption="Select State"
+              name="state"
+              id="state"
+              required
+              options={stateOptions}
+              defaultOption="Select State"
             />
           </label>
 
@@ -123,10 +122,12 @@ const CreateEmployee = () => {
             <input id="zip-code" type="number" required />
           </label>
         </fieldset>
+        <div className="button__container">
+          <button className="button save__button" type="submit">
+            Save
+          </button>
+        </div>
       </form>
-      <button className="button save__button" type="submit">
-        Save
-      </button>
 
       <span className="required-fields">* Required Fields</span>
 
