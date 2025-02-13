@@ -20,6 +20,10 @@
       gap: 10px;
       height: 100%;
     }
+    .search-input:focus {
+      border-color: rgb(22, 68, 52);
+      outline: none;
+    }
 
     .search-pagination {
       display: flex;
@@ -35,7 +39,7 @@
         position: absolute;
         right: 0.5rem;
         cursor: pointer;
-        color: #999;
+
       }
     }
   }
