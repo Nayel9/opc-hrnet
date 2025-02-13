@@ -64,7 +64,13 @@
 
   .save__button {
     margin: 40px 0 0 0;
+    width: 350px;
   }
+
+  .required-fields{
+    margin-top: 10px;
+  }
+
   /* Pour les navigateurs Webkit (Chrome, Safari, etc.) */
   input[type=number]::-webkit-outer-spin-button,
   input[type=number]::-webkit-inner-spin-button {
@@ -87,5 +93,8 @@
       grid-template-columns: 1fr;
       grid-column: span 1;
     }
+  }
+  .save__button {
+    width: 250px!important;
   }
 }

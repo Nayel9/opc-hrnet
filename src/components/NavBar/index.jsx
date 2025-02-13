@@ -1,12 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import "./navbar.scss";
+import propTypes from "prop-types";
 
-const NavBar = () => {
+const NavBar = ({ showViewCurentEmployeesButton = true}) => {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
-    navigate("/current-employees");
+    navigate("/employees-table");
   };
 
   return (
@@ -20,9 +21,15 @@ const NavBar = () => {
           <img src={logo} alt="logo" className="navbar__logo-img" />
         </Link>
       </nav>
+      {showViewCurentEmployeesButton && (
       <button onClick={handleNavigate} className="button navbar__button">View current employees</button>
+        )}
     </header>
   );
+};
+
+NavBar.propTypes = {
+  showViewCurentEmployeesButton: propTypes.bool,
 };
 
 export default NavBar;
