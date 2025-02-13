@@ -4,7 +4,7 @@ import { Modale } from "modale-opc-p14";
 import useEmployeeStore from "../../store/employeeStore";
 import MyDatePicker from "../DatePicker";
 import { v4 as uuidv4 } from "uuid";
-import CustomSelect from "../CustomSelect/index.jsx";
+import { CustomSelect } from "customselect-opc-p14";
 
 const CreateEmployee = () => {
   const addEmployee = useEmployeeStore((state) => state.addEmployee);
