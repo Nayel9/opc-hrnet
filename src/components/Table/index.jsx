@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import useEmployeeStore from "../../store/employeeStore";
 import { RiDeleteBin5Line } from "react-icons/ri";
+import { FaTimes } from "react-icons/fa";
 
 const TableComponent = () => {
   const employees = useEmployeeStore((state) => state.employees);
@@ -22,6 +23,7 @@ const TableComponent = () => {
   const [pageSize, setPageSize] = useState(10);
   const [pageIndex, setPageIndex] = useState(0);
   const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
+  const [showResetIcon, setShowResetIcon] = useState(false); // État pour gérer la visibilité de l'icône de réinitialisation
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -85,9 +87,17 @@ const TableComponent = () => {
   const navigate = useNavigate();
 
   const handleSearchChange = useCallback((e) => {
-    setSearch(e.target.value);
+    const value = e.target.value;
+    setSearch(value);
+    setShowResetIcon(value.length > 0); // Afficher l'icône si le champ n'est pas vide
     setPageIndex(0);
   }, []);
+
+  const handleResetSearch = () => {
+    setSearch("");
+    setShowResetIcon(false); // Masquer l'icône de réinitialisation
+    setPageIndex(0);
+  };
 
   const handlePageSizeChange = useCallback((e) => {
     setPageSize(Number(e.target.value));
@@ -138,6 +148,9 @@ const TableComponent = () => {
             onChange={handleSearchChange}
             className="search-input"
           />
+          {showResetIcon && (
+            <FaTimes className="reset-icon" onClick={handleResetSearch} />
+          )}
         </div>
       </div>
       <table>
@@ -178,7 +191,10 @@ const TableComponent = () => {
           ) : (
             table.getRowModel().rows.map((row) => (
               <Fragment key={row.id}>
-                <tr className="employee_tr" onClick={() => viewEditEmployee(row.original.id)}>
+                <tr
+                  className="employee_tr"
+                  onClick={() => viewEditEmployee(row.original.id)}
+                >
                   {row.getVisibleCells().map((cell) => (
                     <td key={cell.id}>
                       {flexRender(
@@ -194,8 +210,7 @@ const TableComponent = () => {
                       <div key={row.original.id} className="employee-actions">
                         <RiDeleteBin5Line
                           onClick={() => handleDeleteEmployee(row.original.id)}
-                        >
-                        </RiDeleteBin5Line>
+                        ></RiDeleteBin5Line>
                       </div>
                     </td>
                   </tr>
