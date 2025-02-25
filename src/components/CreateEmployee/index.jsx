@@ -2,9 +2,10 @@ import "./createEmployee.scss";
 import states from "../../data/States.json";
 import { Modale } from "modale-opc-p14";
 import useEmployeeStore from "../../store/employeeStore";
-import MyDatePicker from "../DatePicker";
 import { v4 as uuidv4 } from "uuid";
 import { CustomSelect } from "customselect-opc-p14";
+// import NewDatePicker from "../NewDatePicker/index.jsx";
+import MyDatePicker from "../datePicker/index.jsx";
 
 const CreateEmployee = () => {
   const addEmployee = useEmployeeStore((state) => state.addEmployee);
@@ -19,20 +20,22 @@ const CreateEmployee = () => {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
-    console.log(formValues);
+    console.log("Updated formValues:", { ...formValues, [name]: value });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { selectedDateOfBirth, selectedStartDate } =
-      useEmployeeStore.getState();
+    console.log("formValues:", formValues);
+    const dateOfBirth = new Date(formValues.dateOfBirth);
+    const startDate = new Date(formValues.startDate);
 
     const newErrors = {};
     if (!formValues.firstName) newErrors.firstName = "First name is required";
     if (!formValues.lastName) newErrors.lastName = "Last name is required";
-    if (!selectedDateOfBirth)
+    if (!(dateOfBirth instanceof Date) || isNaN(dateOfBirth.getTime()))
       newErrors.dateOfBirth = "Date of birth is required";
-    if (!selectedStartDate) newErrors.startDate = "Start date is required";
+    if (!(startDate instanceof Date) || isNaN(startDate.getTime()))
+      newErrors.startDate = "Start date is required";
     if (!formValues.department) newErrors.department = "Department is required";
     if (!formValues.street) newErrors.street = "Street is required";
     if (!formValues.city) newErrors.city = "City is required";
@@ -48,8 +51,8 @@ const CreateEmployee = () => {
       id: uuidv4(),
       first_name: formValues.firstName,
       last_name: formValues.lastName,
-      birthday: new Date(selectedDateOfBirth).toISOString(),
-      start_date: new Date(selectedStartDate).toISOString(),
+      birthday: dateOfBirth.toISOString(),
+      start_date: startDate.toISOString(),
       department: formValues.department,
       street: formValues.street,
       city: formValues.city,
@@ -86,7 +89,12 @@ const CreateEmployee = () => {
 
   return (
     <div className="form-container">
-      <form action="#" id="create-employee" onSubmit={handleSubmit}>
+      <form
+        action="#"
+        id="create-employee"
+        data-testid="create-employee"
+        onSubmit={handleSubmit}
+      >
         <label htmlFor="first-name">
           First Name *
           <div className="label-group">
@@ -94,10 +102,13 @@ const CreateEmployee = () => {
               type="text"
               id="first-name"
               name="firstName"
+              data-testid="firstName"
               onChange={handleChange}
             />
             {errors.firstName && (
-              <span className="input-error">{errors.firstName}</span>
+              <span data-testid="input-error" className="input-error">
+                {errors.firstName}
+              </span>
             )}
           </div>
         </label>
@@ -109,45 +120,52 @@ const CreateEmployee = () => {
               type="text"
               id="last-name"
               name="lastName"
+              data-testid="lastName"
               value={formValues.lastName}
               onChange={handleChange}
             />
             {errors.lastName && (
-              <span className="input-error">{errors.lastName}</span>
+              <span data-testid="input-error" className="input-error">
+                {errors.lastName}
+              </span>
             )}
           </div>
         </label>
-
-        <label htmlFor="date-of-birth">
+        <label htmlFor="dateOfBirth">
           Date of Birth *
           <div className="label-group">
             <MyDatePicker
-              id="date-of-birth"
-              dateType="selectedDateOfBirth"
-              aria-labelledby="date-of-birth"
-              name="date-of-birth"
+              id="dateOfBirth"
+              dateType="dateOfBirth"
+              aria-labelledby="dateOfBirth"
+              name="dateOfBirth"
               value={formValues.dateOfBirth}
-              dataTestId="date-of-birth"
-
+              dataTestId="dateOfBirth"
+              showMonthYearDropdown={false}
             />
             {errors.dateOfBirth && (
-              <span className="input-error">{errors.dateOfBirth}</span>
+              <span data-testid="input-error" className="input-error">
+                {errors.dateOfBirth}
+              </span>
             )}
           </div>
         </label>
-        <label htmlFor="start-date">
+        <label htmlFor="startDate">
           Start Date *
           <div className="label-group">
             <MyDatePicker
-              id="start-date"
-              dateType="selectedStartDate"
-              aria-labelledby="start-date"
-              name="start-date"
+              id="startDate"
+              dateType="startDate"
+              aria-labelledby="startDate"
+              name="startDate"
               value={formValues.startDate}
-              dataTestId="start-date"
+              dataTestId="startDate"
+              showMonthYearDropdown={false}
             />
             {errors.startDate && (
-              <span className="input-error">{errors.startDate}</span>
+              <span data-testid="input-error" className="input-error">
+                {errors.startDate}
+              </span>
             )}
           </div>
         </label>
@@ -157,6 +175,7 @@ const CreateEmployee = () => {
             <CustomSelect
               name="department"
               id="department"
+              dataTestId="department"
               options={departmentOptions}
               defaultOption="Select Department"
               aria-labelledby="department"
@@ -164,7 +183,9 @@ const CreateEmployee = () => {
               value={formValues.department}
             />
             {errors.department && (
-              <span className="input-error">{errors.department}</span>
+              <span data-testid="input-error" className="input-error">
+                {errors.department}
+              </span>
             )}
           </div>
         </label>
@@ -178,11 +199,14 @@ const CreateEmployee = () => {
                 id="street"
                 type="text"
                 name="street"
+                data-testid="street"
                 value={formValues.street}
                 onChange={handleChange}
               />
               {errors.street && (
-                <span className="input-error">{errors.street}</span>
+                <span data-testid="input-error" className="input-error">
+                  {errors.street}
+                </span>
               )}
             </div>
           </label>
@@ -194,11 +218,14 @@ const CreateEmployee = () => {
                 id="city"
                 type="text"
                 name="city"
+                data-testid="city"
                 value={formValues.city}
                 onChange={handleChange}
               />
               {errors.city && (
-                <span className="input-error">{errors.city}</span>
+                <span data-testid="input-error" className="input-error">
+                  {errors.city}
+                </span>
               )}
             </div>
           </label>
@@ -209,6 +236,7 @@ const CreateEmployee = () => {
               <CustomSelect
                 name="state"
                 id="state"
+                dataTestId="state"
                 options={stateOptions}
                 defaultOption="Select State"
                 aria-labelledby="state"
@@ -216,7 +244,9 @@ const CreateEmployee = () => {
                 value={formValues.state}
               />
               {errors.state && (
-                <span className="input-error">{errors.state}</span>
+                <span data-testid="input-error" className="input-error">
+                  {errors.state}
+                </span>
               )}
             </div>
           </label>
@@ -228,17 +258,24 @@ const CreateEmployee = () => {
                 id="zip-code"
                 type="number"
                 name="zipCode"
+                data-testid="zipCode"
                 value={formValues.zipCode}
                 onChange={handleChange}
               />
               {errors.zipCode && (
-                <span className="input-error">{errors.zipCode}</span>
+                <span data-testid="input-error" className="input-error">
+                  {errors.zipCode}
+                </span>
               )}
             </div>
           </label>
         </fieldset>
         <div className="button__container">
-          <button className="button save__button" type="submit">
+          <button
+            data-testid="submitButton"
+            className="button save__button"
+            type="submit"
+          >
             Save
           </button>
         </div>

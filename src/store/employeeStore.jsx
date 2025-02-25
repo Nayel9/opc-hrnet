@@ -5,8 +5,7 @@
         const useEmployeeStore = create((set) => ({
           employees: employeesMock, // Initialisez avec les données mockées
           isModalOpen: false,
-          selectedDateOfBirth: null,
-          selectedStartDate: null,
+          selectedDate: "",
           formValues: {
             firstName: "",
             lastName: "",
@@ -27,9 +26,8 @@
           removeEmployee: (id) => set((state) => ({
             employees: state.employees.filter((employee) => employee.id !== id),
           })),
+          setSelectedDate: (date) => set({ selectedDate: date }),
           closeModal: () => set({ isModalOpen: false }),
-          setSelectedDateOfBirth: (date) => set({ selectedDateOfBirth: date }),
-          setSelectedStartDate: (date) => set({ selectedStartDate: date }),
           setFormValues: (values) => set((state) => ({
             formValues: { ...state.formValues, ...values },
           })), // Assurez-vous que cette fonction est définie
@@ -46,8 +44,6 @@
               state: "",
               zipCode: "",
             },
-            selectedDateOfBirth: null,
-            selectedStartDate: null,
             errors: {},
           }), // Ajoutez cette fonction pour réinitialiser le formulaire
         }));
