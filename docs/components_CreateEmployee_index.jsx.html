@@ -1,4 +1,32 @@
-import "./createEmployee.scss";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/CreateEmployee/index.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/CreateEmployee/index.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import "./createEmployee.scss";
   import states from "../../data/States.json";
   import { Modale } from "modale-opc-p14";
   import useEmployeeStore from "../../store/employeeStore";
@@ -105,34 +133,34 @@ import "./createEmployee.scss";
     ];
 
     return (
-      <div className="form-container">
-        <form
+      &lt;div className="form-container">
+        &lt;form
           action="#"
           id="create-employee"
           data-testid="create-employee"
           onSubmit={handleSubmit}
         >
-          <label htmlFor="first-name">
+          &lt;label htmlFor="first-name">
             First Name *
-            <div className="label-group">
-              <input
+            &lt;div className="label-group">
+              &lt;input
                 id="first-name"
                 name="firstName"
                 data-testid="firstName"
                 onChange={handleChange}
               />
-              {errors.firstName && (
-                <span data-testid="input-error" className="input-error">
+              {errors.firstName &amp;&amp; (
+                &lt;span data-testid="input-error" className="input-error">
                   {errors.firstName}
-                </span>
+                &lt;/span>
               )}
-            </div>
-          </label>
+            &lt;/div>
+          &lt;/label>
 
-          <label htmlFor="last-name">
+          &lt;label htmlFor="last-name">
             Last Name *
-            <div className="label-group">
-              <input
+            &lt;div className="label-group">
+              &lt;input
                 type="text"
                 id="last-name"
                 name="lastName"
@@ -140,17 +168,17 @@ import "./createEmployee.scss";
                 value={formValues.lastName}
                 onChange={handleChange}
               />
-              {errors.lastName && (
-                <span data-testid="input-error" className="input-error">
+              {errors.lastName &amp;&amp; (
+                &lt;span data-testid="input-error" className="input-error">
                   {errors.lastName}
-                </span>
+                &lt;/span>
               )}
-            </div>
-          </label>
-          <label htmlFor="dateOfBirth">
+            &lt;/div>
+          &lt;/label>
+          &lt;label htmlFor="dateOfBirth">
             Date of Birth *
-            <div className="label-group">
-              <MyDatePicker
+            &lt;div className="label-group">
+              &lt;MyDatePicker
                 id="dateOfBirth"
                 dateType="dateOfBirth"
                 aria-labelledby="dateOfBirth"
@@ -159,17 +187,17 @@ import "./createEmployee.scss";
                 dataTestId="dateOfBirth"
                 showMonthYearDropdown={false}
               />
-              {errors.dateOfBirth && (
-                <span data-testid="input-error" className="input-error">
+              {errors.dateOfBirth &amp;&amp; (
+                &lt;span data-testid="input-error" className="input-error">
                   {errors.dateOfBirth}
-                </span>
+                &lt;/span>
               )}
-            </div>
-          </label>
-          <label htmlFor="startDate">
+            &lt;/div>
+          &lt;/label>
+          &lt;label htmlFor="startDate">
             Start Date *
-            <div className="label-group">
-              <MyDatePicker
+            &lt;div className="label-group">
+              &lt;MyDatePicker
                 id="startDate"
                 dateType="startDate"
                 aria-labelledby="startDate"
@@ -178,17 +206,17 @@ import "./createEmployee.scss";
                 dataTestId="startDate"
                 showMonthYearDropdown={false}
               />
-              {errors.startDate && (
-                <span data-testid="input-error" className="input-error">
+              {errors.startDate &amp;&amp; (
+                &lt;span data-testid="input-error" className="input-error">
                   {errors.startDate}
-                </span>
+                &lt;/span>
               )}
-            </div>
-          </label>
-          <label id="department-label" htmlFor="department">
+            &lt;/div>
+          &lt;/label>
+          &lt;label id="department-label" htmlFor="department">
             Department *
-            <div className="label-group">
-              <CustomSelect
+            &lt;div className="label-group">
+              &lt;CustomSelect
                 name="department"
                 id="department"
                 dataTestId="department"
@@ -198,20 +226,20 @@ import "./createEmployee.scss";
                 onChange={handleChange}
                 value={formValues.department}
               />
-              {errors.department && (
-                <span data-testid="input-error" className="input-error">
+              {errors.department &amp;&amp; (
+                &lt;span data-testid="input-error" className="input-error">
                   {errors.department}
-                </span>
+                &lt;/span>
               )}
-            </div>
-          </label>
-          <fieldset className="address">
-            <legend>Address</legend>
+            &lt;/div>
+          &lt;/label>
+          &lt;fieldset className="address">
+            &lt;legend>Address&lt;/legend>
 
-            <label htmlFor="street">
+            &lt;label htmlFor="street">
               Street *
-              <div className="label-group">
-                <input
+              &lt;div className="label-group">
+                &lt;input
                   id="street"
                   type="text"
                   name="street"
@@ -219,18 +247,18 @@ import "./createEmployee.scss";
                   value={formValues.street}
                   onChange={handleChange}
                 />
-                {errors.street && (
-                  <span data-testid="input-error" className="input-error">
+                {errors.street &amp;&amp; (
+                  &lt;span data-testid="input-error" className="input-error">
                     {errors.street}
-                  </span>
+                  &lt;/span>
                 )}
-              </div>
-            </label>
+              &lt;/div>
+            &lt;/label>
 
-            <label htmlFor="city">
+            &lt;label htmlFor="city">
               City *
-              <div className="label-group">
-                <input
+              &lt;div className="label-group">
+                &lt;input
                   id="city"
                   type="text"
                   name="city"
@@ -238,18 +266,18 @@ import "./createEmployee.scss";
                   value={formValues.city}
                   onChange={handleChange}
                 />
-                {errors.city && (
-                  <span data-testid="input-error" className="input-error">
+                {errors.city &amp;&amp; (
+                  &lt;span data-testid="input-error" className="input-error">
                     {errors.city}
-                  </span>
+                  &lt;/span>
                 )}
-              </div>
-            </label>
+              &lt;/div>
+            &lt;/label>
 
-            <label htmlFor="state">
+            &lt;label htmlFor="state">
               State *
-              <div className="label-group">
-                <CustomSelect
+              &lt;div className="label-group">
+                &lt;CustomSelect
                   name="state"
                   id="state"
                   dataTestId="state"
@@ -259,18 +287,18 @@ import "./createEmployee.scss";
                   onChange={handleChange}
                   value={formValues.state}
                 />
-                {errors.state && (
-                  <span data-testid="input-error" className="input-error">
+                {errors.state &amp;&amp; (
+                  &lt;span data-testid="input-error" className="input-error">
                     {errors.state}
-                  </span>
+                  &lt;/span>
                 )}
-              </div>
-            </label>
+              &lt;/div>
+            &lt;/label>
 
-            <label htmlFor="zip-code">
+            &lt;label htmlFor="zip-code">
               Zip Code *
-              <div className="label-group">
-                <input
+              &lt;div className="label-group">
+                &lt;input
                   id="zip-code"
                   type="number"
                   name="zipCode"
@@ -278,29 +306,29 @@ import "./createEmployee.scss";
                   value={formValues.zipCode}
                   onChange={handleChange}
                 />
-                {errors.zipCode && (
-                  <span data-testid="input-error" className="input-error">
+                {errors.zipCode &amp;&amp; (
+                  &lt;span data-testid="input-error" className="input-error">
                     {errors.zipCode}
-                  </span>
+                  &lt;/span>
                 )}
-              </div>
-            </label>
-          </fieldset>
-          <div className="button__container">
-            <button
+              &lt;/div>
+            &lt;/label>
+          &lt;/fieldset>
+          &lt;div className="button__container">
+            &lt;button
               data-testid="submitButton"
               className="button save__button"
               type="submit"
             >
               Save
-            </button>
-          </div>
-        </form>
+            &lt;/button>
+          &lt;/div>
+        &lt;/form>
 
-        <span className="required-fields">* Required Fields</span>
+        &lt;span className="required-fields">* Required Fields&lt;/span>
 
-        {isModalOpen && (
-          <Modale
+        {isModalOpen &amp;&amp; (
+          &lt;Modale
             title={errors.general ? "Error !" : "Confirmation"}
             content={
               errors.general
@@ -312,8 +340,30 @@ import "./createEmployee.scss";
             ariaLabel="close"
           />
         )}
-      </div>
+      &lt;/div>
     );
   };
 
-  export default CreateEmployee;
+  export default CreateEmployee;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#CreateEmployee">CreateEmployee</a></li><li><a href="global.html#MyDatePicker">MyDatePicker</a></li><li><a href="global.html#NavBar">NavBar</a></li><li><a href="global.html#TableComponent">TableComponent</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Feb 26 2025 10:41:04 GMT+0100 (heure normale d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
-    "test:watch": "vitest --watch"
+    "test:watch": "vitest --watch",
+    "doc": "jsdoc -c jsdoc.json"
   },
   "dependencies": {
     "@tanstack/react-table": "^8.21.2",

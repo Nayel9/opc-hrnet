@@ -6,22 +6,32 @@ import useEmployeeStore from "../../store/employeeStore";
 import CreateEmployee from "../CreateEmployee/index.jsx";
 import { Modale } from "modale-opc-p14";
 
-
-// import useEmployeeStore from "../../store/employeeStore";
-// import { v4 as uuidv4 } from "uuid";
-// import { CustomSelect } from "customselect-opc-p14";
-// import NewDatePicker from "../NewDatePicker/index.jsx";
-
+// Mock the employee store
 vi.mock("../../store/employeeStore");
 
 let mockState;
 
 beforeEach(() => {
   const mockAddEmployee = vi.fn();
-  const mockCloseModal = vi.fn();
+  const mockCloseModal = vi.fn(() => {
+    mockState.isModalOpen = false;
+  });
   const mockSetDepartment = vi.fn();
   const mockSetState = vi.fn();
-  const mockResetForm = vi.fn();
+  const mockResetForm = vi.fn(() => {
+    mockState.formValues = {
+      firstName: "",
+      lastName: "",
+      dateOfBirth: "",
+      startDate: "",
+      department: "",
+      street: "",
+      city: "",
+      state: "",
+      zipCode: "",
+    };
+    mockState.errors = {};
+  });
   const mockSetErrors = vi.fn();
   const mockSetFormValues = vi.fn();
 
@@ -106,6 +116,7 @@ describe("TEST MyDatePicker", () => {
   beforeEach(() => {
     mockState.formValues.dateOfBirth = new Date("02/25/2025");
   });
+
   it("renders the date picker with the selected date", () => {
     render(<MyDatePicker dateType="dateOfBirth" dataTestId="datepicker" />);
 
@@ -129,11 +140,13 @@ describe("TEST MyDatePicker", () => {
 });
 
 describe("TEST CreateEmployee", () => {
-
   beforeEach(() => {
     render(<CreateEmployee />);
   });
 
+  /**
+   * Initialize form values with mock data
+   */
   function initializeFormValues() {
     mockState.formValues.firstName = "Darth";
     mockState.formValues.lastName = "Vader";
@@ -188,7 +201,7 @@ describe("TEST CreateEmployee", () => {
     });
   });
 
-  it("should opening the modal when form is submitted", () => {
+  it("should open the modal when form is submitted", () => {
     initializeFormValues();
 
     if (
@@ -214,19 +227,22 @@ describe("TEST CreateEmployee", () => {
 
   it("should close the modal and reset the form when the close button is clicked", () => {
     initializeFormValues();
+    mockState.isModalOpen = true;
 
     const handleCloseModal = () => {
       mockState.closeModal();
       mockState.resetForm();
     };
 
-      render(<Modale
-      title="Confirmation"
-      content="Employee saved successfully!"
-      onClose={handleCloseModal}
-      error={false}
-      ariaLabel="close"
-    />);
+    render(
+      <Modale
+        title="Confirmation"
+        content="Employee saved successfully!"
+        onClose={handleCloseModal}
+        error={false}
+        ariaLabel="close"
+      />,
+    );
 
     const closeButton = screen.getByTestId("modaleCloseButton");
     fireEvent.click(closeButton);
@@ -234,5 +250,16 @@ describe("TEST CreateEmployee", () => {
     expect(mockState.closeModal).toHaveBeenCalled();
     expect(mockState.resetForm).toHaveBeenCalled();
     expect(mockState.isModalOpen).toBe(false);
+    expect(mockState.formValues).toEqual({
+      firstName: "",
+      lastName: "",
+      dateOfBirth: "",
+      startDate: "",
+      department: "",
+      street: "",
+      city: "",
+      state: "",
+      zipCode: "",
+    });
   });
 });

@@ -1,4 +1,32 @@
-import { useState, useMemo, useCallback, useEffect, Fragment } from "react";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Table/index.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Table/index.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useState, useMemo, useCallback, useEffect, Fragment } from "react";
 import { useDebounce } from "use-debounce";
 import {
   useReactTable,
@@ -161,42 +189,42 @@ const TableComponent = () => {
   };
 
   return (
-    <div className="table-container">
-      <div className="search-pagination-control">
-        <div className="page-size-label">
-          <p>Show</p>
-          <select
+    &lt;div className="table-container">
+      &lt;div className="search-pagination-control">
+        &lt;div className="page-size-label">
+          &lt;p>Show&lt;/p>
+          &lt;select
             value={pageSize}
             onChange={handlePageSizeChange}
             className="page-size-select"
           >
-            <option value={10}>10</option>
-            <option value={25}>25</option>
-            <option value={50}>50</option>
-            <option value={100}>100</option>
-          </select>
-          <p>entries</p>
-        </div>
-        <div className="search-pagination">
-          <FaSearch className="search-icon" />
-          <input
+            &lt;option value={10}>10&lt;/option>
+            &lt;option value={25}>25&lt;/option>
+            &lt;option value={50}>50&lt;/option>
+            &lt;option value={100}>100&lt;/option>
+          &lt;/select>
+          &lt;p>entries&lt;/p>
+        &lt;/div>
+        &lt;div className="search-pagination">
+          &lt;FaSearch className="search-icon" />
+          &lt;input
             type="text"
             placeholder="Search..."
             value={search}
             onChange={handleSearchChange}
             className="search-input"
           />
-          {showResetIcon && (
-            <FaTimes className="reset-icon" onClick={handleResetSearch} />
+          {showResetIcon &amp;&amp; (
+            &lt;FaTimes className="reset-icon" onClick={handleResetSearch} />
           )}
-        </div>
-      </div>
-      <table>
-        <thead>
+        &lt;/div>
+      &lt;/div>
+      &lt;table>
+        &lt;thead>
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
+            &lt;tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th
+                &lt;th
                   key={header.id}
                   onClick={header.column.getToggleSortingHandler()}
                   style={{ cursor: "pointer" }}
@@ -205,94 +233,117 @@ const TableComponent = () => {
                     header.column.columnDef.header,
                     header.getContext(),
                   )}
-                  <span className="sort-icon">
+                  &lt;span className="sort-icon">
                     {header.column.getIsSorted() === "asc" ? (
-                      <FaSortUp />
+                      &lt;FaSortUp />
                     ) : header.column.getIsSorted() === "desc" ? (
-                      <FaSortDown />
+                      &lt;FaSortDown />
                     ) : (
-                      <FaSort />
+                      &lt;FaSort />
                     )}
-                  </span>
-                </th>
+                  &lt;/span>
+                &lt;/th>
               ))}
-            </tr>
+            &lt;/tr>
           ))}
-        </thead>
-        <tbody>
+        &lt;/thead>
+        &lt;tbody>
           {table.getRowModel().rows.length === 0 ? (
-            <tr>
-              <td colSpan={columns.length} className="no-data">
+            &lt;tr>
+              &lt;td colSpan={columns.length} className="no-data">
                 No data available in table !
-              </td>
-            </tr>
+              &lt;/td>
+            &lt;/tr>
           ) : (
             table.getRowModel().rows.map((row) => (
-              <Fragment key={row.id}>
-                <tr
+              &lt;Fragment key={row.id}>
+                &lt;tr
                   className="employee_tr"
                   onClick={() => viewEditEmployee(row.original.id)}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id}>
+                    &lt;td key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),
                       )}
-                    </td>
+                    &lt;/td>
                   ))}
-                </tr>
-                {selectedEmployeeId === row.original.id && (
-                  <tr className="employee_edit">
-                    <td colSpan={columns.length}>
-                      <div key={row.original.id} className="employee-actions">
-                        <RiDeleteBin5Line
+                &lt;/tr>
+                {selectedEmployeeId === row.original.id &amp;&amp; (
+                  &lt;tr className="employee_edit">
+                    &lt;td colSpan={columns.length}>
+                      &lt;div key={row.original.id} className="employee-actions">
+                        &lt;RiDeleteBin5Line
                           onClick={() => handleDeleteEmployee(row.original.id)}
-                        ></RiDeleteBin5Line>
-                      </div>
-                    </td>
-                  </tr>
+                        >&lt;/RiDeleteBin5Line>
+                      &lt;/div>
+                    &lt;/td>
+                  &lt;/tr>
                 )}
-              </Fragment>
+              &lt;/Fragment>
             ))
           )}
-        </tbody>
-      </table>
-      <div className="table-footer">
-        <div className="pagination-info">
+        &lt;/tbody>
+      &lt;/table>
+      &lt;div className="table-footer">
+        &lt;div className="pagination-info">
           Showing {startRow} to {endRow} of {rowCount} entries
-        </div>
+        &lt;/div>
 
-        <button
+        &lt;button
           className="button pagination__button"
           onClick={() => navigate("/")}
         >
           Home
-        </button>
+        &lt;/button>
 
-        <div className="pagination">
-          <button
+        &lt;div className="pagination">
+          &lt;button
             onClick={handlePreviousPage}
             disabled={!table.getCanPreviousPage()}
             className="button pagination__button"
           >
             Previous
-          </button>
-          <span>
+          &lt;/button>
+          &lt;span>
             Page {table.getState().pagination.pageIndex + 1} of{" "}
             {table.getPageCount()}
-          </span>
-          <button
+          &lt;/span>
+          &lt;button
             onClick={handleNextPage}
             disabled={!table.getCanNextPage()}
             className="button pagination__button"
           >
             Next
-          </button>
-        </div>
-      </div>
-    </div>
+          &lt;/button>
+        &lt;/div>
+      &lt;/div>
+    &lt;/div>
   );
 };
 
 export default TableComponent;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#CreateEmployee">CreateEmployee</a></li><li><a href="global.html#MyDatePicker">MyDatePicker</a></li><li><a href="global.html#NavBar">NavBar</a></li><li><a href="global.html#TableComponent">TableComponent</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Feb 26 2025 10:41:04 GMT+0100 (heure normale d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
