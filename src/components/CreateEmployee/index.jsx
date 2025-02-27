@@ -5,6 +5,7 @@ import "./createEmployee.scss";
   import { v4 as uuidv4 } from "uuid";
   import { CustomSelect } from "customselect-opc-p14";
   import MyDatePicker from "../datePicker/index.jsx";
+import { apiService } from "../../services/apiService";
 
   /**
    * Composant CreateEmployee pour créer un nouvel employé.
@@ -13,6 +14,7 @@ import "./createEmployee.scss";
   const CreateEmployee = () => {
     const addEmployee = useEmployeeStore((state) => state.addEmployee);
     const isModalOpen = useEmployeeStore((state) => state.isModalOpen);
+    const openModal = useEmployeeStore((state) => state.openModal);
     const closeModal = useEmployeeStore((state) => state.closeModal);
     const formValues = useEmployeeStore((state) => state.formValues);
     const setFormValues = useEmployeeStore((state) => state.setFormValues);
@@ -33,7 +35,7 @@ import "./createEmployee.scss";
      * Gère la soumission du formulaire.
      * @param {Object} event - L'événement de soumission.
      */
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
       event.preventDefault();
       const dateOfBirth = new Date(formValues.dateOfBirth);
       const startDate = new Date(formValues.startDate);
@@ -60,7 +62,6 @@ import "./createEmployee.scss";
 
       // Création d'un nouvel employé
       const newEmployee = {
-        id: uuidv4(),
         first_name: formValues.firstName,
         last_name: formValues.lastName,
         birthday: dateOfBirth.toISOString(),
@@ -73,13 +74,17 @@ import "./createEmployee.scss";
       };
 
       try {
-        addEmployee(newEmployee);
+        const savedEmployee = await apiService.addNewEmployee(newEmployee);
+        addEmployee(savedEmployee);
         setErrors({});
         event.target.reset();
+        openModal();
       } catch {
         setErrors({ general: "Error while saving the employee" });
+        openModal();
       }
     };
+
 
     /**
      * Gère la fermeture de la modale.

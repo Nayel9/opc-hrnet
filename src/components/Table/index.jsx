@@ -12,8 +12,10 @@ import { FaSortDown, FaSortUp, FaSort } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import useEmployeeStore from "../../store/employeeStore";
+import { Modale } from "modale-opc-p14";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaTimes } from "react-icons/fa";
+import { apiService } from "../../services/apiService";
 
 /**
  * Composant TableComponent pour afficher et gérer une table d'employés.
@@ -28,6 +30,8 @@ const TableComponent = () => {
   const [pageIndex, setPageIndex] = useState(0);
   const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
   const [showResetIcon, setShowResetIcon] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [employeeIdToDelete, setEmployeeIdToDelete] = useState(null);
 
   /**
    * Formate une date en chaîne de caractères au format "MM/DD/YYYY".
@@ -157,7 +161,19 @@ const TableComponent = () => {
    * @param {string} employeeId - L'ID de l'employé à supprimer.
    */
   const handleDeleteEmployee = (employeeId) => {
-    removeEmployee(employeeId);
+    setEmployeeIdToDelete(employeeId);
+    setIsModalOpen(true);
+  };
+
+  const confirmDeleteEmployee = async () => {
+    try {
+      await apiService.deleteEmployee(employeeIdToDelete);
+      removeEmployee(employeeIdToDelete);
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Error deleting employee:", error);
+      // Gérer l'erreur (par exemple, afficher un message à l'utilisateur)
+    }
   };
 
   return (
@@ -231,7 +247,7 @@ const TableComponent = () => {
               <Fragment key={row.id}>
                 <tr
                   className="employee_tr"
-                  onClick={() => viewEditEmployee(row.original.id)}
+                  onClick={() => viewEditEmployee(row.original._id)}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <td key={cell.id}>
@@ -242,13 +258,28 @@ const TableComponent = () => {
                     </td>
                   ))}
                 </tr>
-                {selectedEmployeeId === row.original.id && (
+                {selectedEmployeeId === row.original._id && (
                   <tr className="employee_edit">
                     <td colSpan={columns.length}>
-                      <div key={row.original.id} className="employee-actions">
+                      <div key={row.original._id} className="employee-actions">
                         <RiDeleteBin5Line
-                          onClick={() => handleDeleteEmployee(row.original.id)}
+                          onClick={() => {
+                            handleDeleteEmployee(row.original._id);
+                          }}
                         ></RiDeleteBin5Line>
+                        {isModalOpen && (
+                          <Modale
+                            title="Confirmation"
+                            content="Are you sure you want to delete this employee?"
+                            onClose={() => setIsModalOpen(false)}
+                            error={false}
+                            ariaLabel="Confirmation modal"
+                          >
+                            <button className="modale__button" onClick={confirmDeleteEmployee}>
+                              Confirm
+                            </button>
+                          </Modale>
+                        )}
                       </div>
                     </td>
                   </tr>
