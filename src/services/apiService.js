@@ -9,19 +9,22 @@ const apiClient = axios.create({
 
 const apiService = {
 
-    getEmployees: async () => {
-        try {
-            const response = await apiClient.get('/employees');
-            return response.data;
-        } catch (error) {
-            if (error.response) {
-                throw error.response.data;
-            } else {
-                throw new Error('Network error');
+getEmployees: async () => {
+    return new Promise((resolve, reject) => {
+        setTimeout(async () => {
+            try {
+                const response = await apiClient.get('/employees');
+                resolve(response.data);
+            } catch (error) {
+                if (error.response) {
+                    reject(error.response.data);
+                } else {
+                    reject(new Error('Network error'));
+                }
             }
-        }
-    },
-
+        }, 500);
+    });
+},
     addNewEmployee: async (employee) => {
         try {
             const response = await apiClient.post('/employees', employee);
@@ -35,18 +38,6 @@ const apiService = {
         }
     },
 
-    updateEmployee: async (employee) => {
-        try {
-            const response = await apiClient.patch(`/employees/${employee._id}`, employee);
-            return response.data;
-        } catch (error) {
-            if (error.response) {
-                throw error.response.data;
-            } else {
-                throw new Error('Network error');
-            }
-        }
-    },
 
     deleteEmployee: async (_id) => {
         try {

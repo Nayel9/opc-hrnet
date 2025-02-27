@@ -2,7 +2,6 @@ import "./createEmployee.scss";
   import states from "../../data/States.json";
   import { Modale } from "modale-opc-p14";
   import useEmployeeStore from "../../store/employeeStore";
-  import { v4 as uuidv4 } from "uuid";
   import { CustomSelect } from "customselect-opc-p14";
   import MyDatePicker from "../datePicker/index.jsx";
 import { apiService } from "../../services/apiService";

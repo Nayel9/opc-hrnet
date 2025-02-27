@@ -25,14 +25,11 @@ async function handler(req, res) {
         case 'POST':
             await createEmployee(db, req, res);
             break;
-        case 'PATCH':
-            await updateEmployee(db, req, res);
-            break;
         case 'DELETE':
             await deleteEmployee(db, req, res);
             break;
         default:
-            res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'DELETE']);
+            res.setHeader('Allow', ['GET', 'POST', 'DELETE']);
             res.status(405).end(`Method ${req.method} Not Allowed`);
     }
 }
@@ -48,19 +45,6 @@ async function createEmployee(db, req, res) {
     res.status(201).json({ _id: result.insertedId, ...newEmployee });
 }
 
-async function updateEmployee(db, req, res) {
-    const { _id } = req.query;
-    const updatedEmployee = req.body;
-    const result = await db.collection("employees").updateOne(
-        { _id: new ObjectId(_id) },
-        { $set: updatedEmployee }
-    );
-    if (result.modifiedCount === 0) {
-        res.status(404).json({ error: `Employee with id ${_id} not found` });
-        return;
-    }
-    res.status(200).json({ _id: _id, ...updatedEmployee });
-}
 
 async function deleteEmployee(db, req, res) {
     const { _id } = req.body; // L'ID est maintenant dans le corps de la requête
