@@ -82,6 +82,7 @@ HRnet React est une refonte de l'application interne de gestion des employés po
 
     L'application sera accessible à l'adresse `http://localhost:5173` (ou l'adresse indiquée par Vite).
 
+
 ## Utilisation
 
 1.  **Création d'un Employé:**
@@ -98,6 +99,8 @@ HRnet React est une refonte de l'application interne de gestion des employés po
 ## Tests
 
 *   **Tests Manuels:** Suivez les étapes décrites dans la section "Utilisation" pour tester les fonctionnalités principales de l'application.
+*   **Tests Unitaires:** Les tests unitaires ont étés écrits l'aide de Vitest et React Testing Library.
+il suffit de lancer la commande `npm run test` ou `yarn test` ou `pnpm test` pour lancer les tests unitaires.
 *   **Tests de Performance (Lighthouse):**
     1.  Construisez l'application pour la production : `npm run build` ou `yarn build` ou `pnpm build`.
     2.  Servez l'application construite avec `npm run preview` ou `yarn preview` ou `pnpm preview`.
