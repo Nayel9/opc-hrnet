@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback, useEffect, Fragment } from "react";
 import { useDebounce } from "use-debounce";
+import PropTypes from "prop-types";
 import {
   useReactTable,
   getCoreRowModel,
@@ -12,14 +13,17 @@ import { FaSortDown, FaSortUp, FaSort } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import useEmployeeStore from "../../store/employeeStore";
+import { Modale } from "modale-opc-p14";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaTimes } from "react-icons/fa";
+import { apiService } from "../../services/apiService";
+import { RiseLoader } from "react-spinners";
 
 /**
  * Composant TableComponent pour afficher et gérer une table d'employés.
  * @returns {JSX.Element} Le composant TableComponent.
  */
-const TableComponent = () => {
+const TableComponent = ({ isLoading }) => {
   const employees = useEmployeeStore((state) => state.employees);
   const removeEmployee = useEmployeeStore((state) => state.removeEmployee);
   const [search, setSearch] = useState("");
@@ -28,7 +32,8 @@ const TableComponent = () => {
   const [pageIndex, setPageIndex] = useState(0);
   const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
   const [showResetIcon, setShowResetIcon] = useState(false);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [employeeIdToDelete, setEmployeeIdToDelete] = useState(null);
   /**
    * Formate une date en chaîne de caractères au format "MM/DD/YYYY".
    * @param {string} dateString - La date à formater.
@@ -157,7 +162,19 @@ const TableComponent = () => {
    * @param {string} employeeId - L'ID de l'employé à supprimer.
    */
   const handleDeleteEmployee = (employeeId) => {
-    removeEmployee(employeeId);
+    setEmployeeIdToDelete(employeeId);
+    setIsModalOpen(true);
+  };
+
+  const confirmDeleteEmployee = async () => {
+    try {
+      await apiService.deleteEmployee(employeeIdToDelete);
+      removeEmployee(employeeIdToDelete);
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Error deleting employee:", error);
+      // Gérer l'erreur (par exemple, afficher un message à l'utilisateur)
+    }
   };
 
   return (
@@ -219,44 +236,82 @@ const TableComponent = () => {
             </tr>
           ))}
         </thead>
-        <tbody>
-          {table.getRowModel().rows.length === 0 ? (
+        {isLoading ? (
+          <tbody>
             <tr>
-              <td colSpan={columns.length} className="no-data">
-                No data available in table !
+              <td colSpan={columns.length} className="loading">
+                <span className="loader">
+                  <RiseLoader
+                      color="#69a141"
+                      margin={10}
+                      size={15}
+                      speedMultiplier={1}
+                  />
+                </span>
               </td>
             </tr>
-          ) : (
-            table.getRowModel().rows.map((row) => (
-              <Fragment key={row.id}>
-                <tr
-                  className="employee_tr"
-                  onClick={() => viewEditEmployee(row.original.id)}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </td>
-                  ))}
-                </tr>
-                {selectedEmployeeId === row.original.id && (
-                  <tr className="employee_edit">
-                    <td colSpan={columns.length}>
-                      <div key={row.original.id} className="employee-actions">
-                        <RiDeleteBin5Line
-                          onClick={() => handleDeleteEmployee(row.original.id)}
-                        ></RiDeleteBin5Line>
-                      </div>
-                    </td>
+          </tbody>
+        ) : (
+          <tbody>
+            {table.getRowModel().rows.length === 0 ? (
+              <tr>
+                <td colSpan={columns.length} className="no-data">
+                  No data available in table !
+                </td>
+              </tr>
+            ) : (
+              table.getRowModel().rows.map((row) => (
+                <Fragment key={row.id}>
+                  <tr
+                    className="employee_tr"
+                    onClick={() => viewEditEmployee(row.original._id)}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <td key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </td>
+                    ))}
                   </tr>
-                )}
-              </Fragment>
-            ))
-          )}
-        </tbody>
+                  {selectedEmployeeId === row.original._id && (
+                    <tr className="employee_edit">
+                      <td colSpan={columns.length}>
+                        <div
+                          key={row.original._id}
+                          className="employee-actions"
+                        >
+                          <RiDeleteBin5Line
+                            onClick={() => {
+                              handleDeleteEmployee(row.original._id);
+                            }}
+                          ></RiDeleteBin5Line>
+                          {isModalOpen && (
+                            <Modale
+                              title="Confirmation"
+                              content="Are you sure you want to delete this employee?"
+                              onClose={() => setIsModalOpen(false)}
+                              error={false}
+                              ariaLabel="Confirmation modal"
+                            >
+                              <button
+                                className="modale__button"
+                                onClick={confirmDeleteEmployee}
+                              >
+                                Confirm
+                              </button>
+                            </Modale>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </Fragment>
+              ))
+            )}
+          </tbody>
+        )}
       </table>
       <div className="table-footer">
         <div className="pagination-info">
@@ -293,6 +348,10 @@ const TableComponent = () => {
       </div>
     </div>
   );
+};
+
+TableComponent.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
 };
 
 export default TableComponent;

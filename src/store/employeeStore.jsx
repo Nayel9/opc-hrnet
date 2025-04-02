@@ -2,7 +2,7 @@ import { create } from "zustand";
 import employeesMock from "../data/employees.json";
 
 const useEmployeeStore = create((set) => ({
-  employees: employeesMock, // Initialisez avec les données mockées
+  employees: [],
   isModalOpen: false,
   selectedDate: "",
   formValues: {
@@ -17,16 +17,18 @@ const useEmployeeStore = create((set) => ({
     zipCode: "",
   },
   errors: {},
+  setEmployees: (employees) => set({ employees }),
   addEmployee: (employee) =>
     set((state) => ({
       employees: [...state.employees, employee],
       isModalOpen: true,
     })),
-  removeEmployee: (id) =>
+  removeEmployee: (_id) =>
     set((state) => ({
-      employees: state.employees.filter((employee) => employee.id !== id),
+      employees: state.employees.filter((employee) => employee._id !== _id),
     })),
   setSelectedDate: (date) => set({ selectedDate: date }),
+  openModal: () => set({ isModalOpen: true }),
   closeModal: () => set({ isModalOpen: false }),
   setFormValues: (values) =>
     set((state) => ({
