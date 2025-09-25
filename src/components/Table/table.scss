@@ -105,6 +105,15 @@ tr:hover {
   margin-top: 10px;
 }
 
+.loader {
+  text-align: center !important;
+  vertical-align: middle !important;
+  height: 200px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
 .no-data {
   text-align: center;
   color: #999;
